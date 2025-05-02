@@ -11,6 +11,24 @@
             text-align: center;
             background: rgb(2, 0, 36);
             background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 121, 118, 1) 25%, rgba(87, 255, 0, 1) 100%);
+            margin: 0;
+            padding: 0;
+        }
+
+        .logo {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            height: 60px;
+            width: auto;
+            z-index: 1000;
+            border-radius: 10px;
+        }
+
+        h1 {
+            margin-top: 30px;
+            color: white;
+            font-size: 48px;
         }
 
         .category {
@@ -72,81 +90,32 @@
             position: absolute;
             right: 0;
         }
+
+        .footer-credit {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-weight: bold;
+            color: white;
+            font-size: 25px;
+        }
     </style>
 </head>
 
 <body>
-    <h1>  RELAXIFY  </h1>
+    <!-- Logo in the top-left corner -->
+    <img src="images/logo.png" alt="Relaxify Logo" class="logo">
+
+    <!-- Title in the center -->
+    <h1>RELAXIFY</h1>
+
     <div id="categories"></div>
+
+    <div class="footer-credit">
+        Made by: Keshav Raj and Ankit Kumar
+    </div>
+
     <script>
         const categories = {
             "Nature": ["bird", "forest", "wind", "fire", "earth", "leaves"],
             "Weather": ["thunder", "windy", "snow", "hail", "drizzle"],
-            "Water": ["ocean", "waves", "rainfall", "stream", "bubble", "drip"],
-            "Instrument": ["piano", "guitar", "violin", "flute", "drum", "harp"],
-            "Children": ["laugh", "train", "heartbeat", "fan", "whistle"],
-            "Calming Voices": ["chant", "hum", "mantra", "hymn", "om"],
-        };
-
-        let currentAudio = null;
-        const categoriesDiv = document.getElementById("categories");
-
-        Object.keys(categories).forEach(category => {
-            const section = document.createElement("div");
-            section.classList.add("category");
-            section.innerHTML = `<h2>${category}</h2>`;
-
-            const iconContainer = document.createElement("div");
-            iconContainer.classList.add("icons");
-
-            categories[category].forEach(iconName => {
-                const icon = document.createElement("div");
-                icon.classList.add("icon");
-
-                const extensions = ['png', 'jpg', 'jpeg', 'gif'];
-                let imageUrl = '';
-
-                for (let ext of extensions) {
-                    let testImage = new Image();
-                    testImage.src = `images/${category.toLowerCase()}/${iconName}.${ext}`;
-                    testImage.onload = function () {
-                        if (!imageUrl) {
-                            imageUrl = this.src;
-                            icon.style.backgroundImage = `url('${imageUrl}')`;
-                        }
-                    };
-                }
-
-                const iconLabel = document.createElement("span");
-                iconLabel.textContent = iconName; 
-                icon.appendChild(iconLabel);
-
-                icon.onclick = () => {
-                    if (currentAudio) {
-                        currentAudio.pause();
-                        currentAudio.currentTime = 0;
-                    }
-                    currentAudio = new Audio(`sounds/${category.toLowerCase()}/${iconName}.mp3`);
-                    currentAudio.play();
-                };
-
-                iconContainer.appendChild(icon);
-            });
-
-            const pauseButton = document.createElement("div");
-            pauseButton.classList.add("pause-button");
-            pauseButton.innerHTML = "&#10074;&#10074;";
-            pauseButton.onclick = () => {
-                if (currentAudio) {
-                    currentAudio.pause();
-                }
-            };
-
-            iconContainer.appendChild(pauseButton);
-            section.appendChild(iconContainer);
-            categoriesDiv.appendChild(section);
-        });
-    </script>
-</body>
-
-</html>
